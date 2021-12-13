@@ -20,6 +20,12 @@ final class SomeInjectClass
 
     /**
      * @var \Ssch\TYPO3Rector\Tests\Rector\v9\v0\InjectAnnotationRector\Source\InjectionClass
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $injectProtected;
+
+    /**
+     * @var \Ssch\TYPO3Rector\Tests\Rector\v9\v0\InjectAnnotationRector\Source\InjectionClass
      * @inject
      */
     private $inject3;
@@ -79,6 +85,12 @@ final class SomeInjectClass
      * @var InjectionClass
      */
     private $inject;
+
+    /**
+     * @var InjectionClass
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    public $injectProtected;
 
     /**
      * @var InjectionClass
