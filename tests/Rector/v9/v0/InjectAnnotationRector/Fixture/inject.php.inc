@@ -88,9 +88,8 @@ final class SomeInjectClass
 
     /**
      * @var InjectionClass
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    public $injectProtected;
+    protected $injectProtected;
 
     /**
      * @var InjectionClass
@@ -129,6 +128,11 @@ final class SomeInjectClass
     public function injectInject(InjectionClass $inject): void
     {
         $this->inject = $inject;
+    }
+
+    public function injectInjectProtected(InjectionClass $injectProtected): void
+    {
+        $this->injectProtected = $injectProtected;
     }
 
     public function injectInject3(InjectionClass $inject3): void
