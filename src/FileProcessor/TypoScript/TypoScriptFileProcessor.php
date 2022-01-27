@@ -48,11 +48,6 @@ final class TypoScriptFileProcessor implements ConfigurableProcessorInterface
     private array $allowedFileExtensions = ['typoscript', 'ts', 'txt'];
 
     /**
-     * @var FileDiff[]
-     */
-    private array $fileDiffs = [];
-
-    /**
      * @param TypoScriptRectorInterface[] $typoScriptRectors
      * @param TypoScriptPostRectorInterface[] $typoScriptPostRectors
      */
@@ -86,13 +81,22 @@ final class TypoScriptFileProcessor implements ConfigurableProcessorInterface
      */
     public function process(File $file, Configuration $configuration): array
     {
+        $systemErrorsAndFileDiffs = [
+            Bridge::SYSTEM_ERRORS => [],
+            Bridge::FILE_DIFFS => [],
+        ];
+
+        $oldFileContents = $file->getFileContent();
+
         $this->processFile($file);
         $this->convertTypoScriptToPhpFiles();
 
-        return [
-            Bridge::SYSTEM_ERRORS => [],
-            Bridge::FILE_DIFFS => $this->fileDiffs,
-        ];
+        if ($oldFileContents !== $file->getFileContent()) {
+            $fileDiff = $this->fileDiffFactory->createFileDiff($file, $oldFileContents, $file->getFileContent());
+            $systemErrorsAndFileDiffs[Bridge::FILE_DIFFS][] = $fileDiff;
+        }
+
+        return $systemErrorsAndFileDiffs;
     }
 
     /**
@@ -168,15 +172,7 @@ final class TypoScriptFileProcessor implements ConfigurableProcessorInterface
 
             $typoScriptContent = rtrim($newTypoScriptContent) . $editorConfiguration->getNewLine();
 
-            $oldFileContents = $file->getFileContent();
-
             $file->changeFileContent($typoScriptContent);
-
-            $this->fileDiffs[] = $this->fileDiffFactory->createFileDiff(
-                $file,
-                $oldFileContents,
-                $file->getFileContent()
-            );
         } catch (TokenizerException) {
             return;
         } catch (ParseError) {

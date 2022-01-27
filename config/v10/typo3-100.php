@@ -18,6 +18,7 @@ use Rector\Transform\Rector\MethodCall\MethodCallToStaticCallRector;
 use Rector\Transform\ValueObject\MethodCallToStaticCall;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationRector;
 use Rector\TypeDeclaration\ValueObject\AddReturnTypeDeclaration;
+use Ssch\TYPO3Rector\FileProcessor\Fluid\Rector\RemoveUseCacheHashFluidRector;
 use Ssch\TYPO3Rector\FileProcessor\TypoScript\Rector\ExtbasePersistenceTypoScriptRector;
 use Ssch\TYPO3Rector\FileProcessor\Yaml\Form\Rector\EmailFinisherRector;
 use Ssch\TYPO3Rector\FileProcessor\Yaml\Form\Rector\TranslationFileRector;
@@ -334,4 +335,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 new BooleanType()
             ),
         ]);
+
+    $services->set(RemoveUseCacheHashFluidRector::class);
 };

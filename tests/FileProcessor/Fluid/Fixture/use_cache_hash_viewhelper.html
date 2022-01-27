@@ -1,0 +1,9 @@
+<f:link.typolink useCacheHash="true" parameter="{link}" />
+<f:link.typolink useCacheHash="{useCacheHash}" parameter="{link}" />
+<f:widget.link useCacheHash="1" addQueryStringMethod="GET" arguments="{currentPage: pagination.previousPage}">
+<link rel="prev" href="{f:widget.uri(useCacheHash:1,arguments: {currentPage: pagination.previousPage}) -> f:format.htmlentities()}"/>
+-----
+<f:link.typolink parameter="{link}" />
+<f:link.typolink parameter="{link}" />
+<f:widget.link addQueryStringMethod="GET" arguments="{currentPage: pagination.previousPage}">
+<link rel="prev" href="{f:widget.uri(arguments: {currentPage: pagination.previousPage}) -> f:format.htmlentities()}"/>
